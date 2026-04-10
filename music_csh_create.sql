@@ -36,7 +36,7 @@ CREATE TABLE album_list (
 CREATE TABLE track (
     track_id SERIAL PRIMARY KEY,
     track_name VARCHAR(255) NOT NULL,
-    duration NUMERIC(4,1) CHECK (duration > 0),
+    duration INTEGER CHECK (duration > 0),
     album_id INTEGER NOT NULL REFERENCES album(album_id) ON DELETE CASCADE
 );
 

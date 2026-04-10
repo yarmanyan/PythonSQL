@@ -5,7 +5,7 @@
 
 SELECT 
     track_name AS "Название трека",
-    duration AS "Продолжительность (мин)"
+    duration AS "Продолжительность (сек)"
 FROM track
 WHERE duration = (SELECT MAX(duration) FROM track);
 
@@ -13,11 +13,10 @@ WHERE duration = (SELECT MAX(duration) FROM track);
 
 SELECT 
     track_name AS "Название трека",
-    duration AS "Продолжительность (мин)"
+    ROUND(duration / 60.0, 1) AS "Продолжительность (мин)"
 FROM track
-WHERE duration >= 3.5
+WHERE duration >= 210  -- 3.5 минуты = 210 секунд
 ORDER BY duration DESC;
-
 
 -- 3. Названия сборников, вышедших в период с 2018 по 2020 год включительно
 
@@ -39,14 +38,16 @@ ORDER BY singer_name;
 
 
 -- 5. Название треков, которые содержат слово «мой» или «my»
-
+   
 SELECT 
-    track_name AS "Название трека",
-    duration AS "Продолжительность (мин)"
+    track_name AS "Название трека"
 FROM track
-WHERE track_name ILIKE '%my%'    -- ILIKE для регистронезависимого поиска
-   OR track_name ILIKE '%мой%'
-ORDER BY track_name;
+WHERE (LOWER(track_name) LIKE '% my %' 
+    OR LOWER(track_name) LIKE 'my %' 
+    OR LOWER(track_name) LIKE '% my')
+   OR (LOWER(track_name) LIKE '% мой %' 
+    OR LOWER(track_name) LIKE 'мой %' 
+    OR LOWER(track_name) LIKE '% мой');
 
 -- Задание №3
 
@@ -63,13 +64,10 @@ ORDER BY COUNT(DISTINCT gl.singer_id) DESC, g.genre_name;
 -- 2. Количество треков, вошедших в альбомы 2019–2020 годов
 
 SELECT 
-    a.year AS "Год альбома",
     COUNT(t.track_id) AS "Количество треков"
 FROM track t
 JOIN album a ON t.album_id = a.album_id
-WHERE a.year BETWEEN 2019 AND 2020
-GROUP BY a.year
-ORDER BY a.year;
+WHERE a.year BETWEEN 2019 AND 2020;
 
 -- 3. Средняя продолжительность треков по каждому альбому
 
