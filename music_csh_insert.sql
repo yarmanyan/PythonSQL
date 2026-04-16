@@ -18,7 +18,7 @@ INSERT INTO singer (singer_name) VALUES
     ('Taylor Swift'),
     ('Daft Punk'),
     ('Billie Eilish'),
-    ('Coldplay');  -- 5 исполнителей
+    ('Coldplay');  
 
 
 -- 3. Связь исполнителей с жанрами (genre_list)
